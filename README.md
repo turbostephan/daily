@@ -1,1 +1,1 @@
-Rotationsplan
+Daily
