@@ -78,6 +78,7 @@
     --glass-opaque: hsl(0 0% 100% / .84);
     --glass-blur:   var(--p-blur-frosted) saturate(180%) brightness(1.04);
     --led-off:      hsl(240 6% 80%);
+    --photo-veil:   linear-gradient(180deg,hsl(0 0% 100% / .42) 0%,hsl(0 0% 100% / .16) 38%,hsl(0 0% 100% / .34) 100%);
     --ease-spring:  cubic-bezier(.22, 1, .36, 1);
   }
 
@@ -101,7 +102,7 @@
   }
   .backdrop::after{
     content:'';position:absolute;inset:0;
-    background:linear-gradient(180deg,hsl(0 0% 100% / .42) 0%,hsl(0 0% 100% / .16) 38%,hsl(0 0% 100% / .34) 100%);
+    background:var(--photo-veil);
   }
 
   /* ===================== Liquid glass ===================== */
@@ -140,7 +141,14 @@
   /* ===================== Layout ===================== */
   .wrap{position:relative;z-index:1;flex:1 0 auto;width:100%;max-width:740px;margin:0 auto;padding:0 var(--p-spacing-fluid-md) var(--p-spacing-fluid-md)}
 
-  .hero{text-align:center;padding:calc(var(--p-spacing-fluid-lg) * 2) 0 calc(var(--p-spacing-fluid-md) * 3)}
+  .hero{text-align:center;padding:var(--p-spacing-fluid-lg) 0 var(--p-spacing-fluid-md)}
+  body.grid-only .topbar,
+  body.grid-only .hero{display:none}
+  body.grid-only .wrap{
+    padding-top:var(--p-spacing-fluid-md);
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  body.grid-only .card{margin-top:0}
   h1{
     font-size:var(--p-typescale-3xl);font-weight:var(--p-font-weight-normal);line-height:1.06;
     hyphens:auto;overflow-wrap:break-word;
@@ -221,7 +229,7 @@
   /* ===================== Start lights ===================== */
   .stage{
     position:fixed;inset:0;z-index:60;display:grid;place-items:center;
-    background:var(--p-color-backdrop);opacity:0;pointer-events:none;transition:opacity var(--p-duration-md) var(--p-ease-in-out);
+    background:var(--photo-veil);opacity:0;pointer-events:none;transition:opacity var(--p-duration-md) var(--p-ease-in-out);
   }
   @supports (backdrop-filter:blur(1px)){
     .stage{backdrop-filter:var(--p-blur-frosted) saturate(140%);-webkit-backdrop-filter:var(--p-blur-frosted) saturate(140%)}
@@ -496,6 +504,7 @@
 
     rosterCard.style.display = 'none';
     resultCard.classList.add('show');
+    document.body.classList.add('grid-only');
   }
 
   function run(){
@@ -537,6 +546,7 @@
   $('editBtn').onclick = function(){
     resultCard.classList.remove('show');
     rosterCard.style.display = '';
+    document.body.classList.remove('grid-only');
   };
 
   /* ---------------- Copy ---------------- */
